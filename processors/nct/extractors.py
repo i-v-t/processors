@@ -72,6 +72,8 @@ def extract_trial(record):
     target_sample_size = record.get('enrollment_anticipated')
     if target_sample_size is None:
         target_sample_size = record.get('enrollment_actual')
+    if target_sample_size is None:
+        target_sample_size = record.get('enrollment')        
 
     # Get study_phase
     study_phase = base.normalizers.get_normalized_phase(record['phase'])
@@ -139,7 +141,7 @@ def extract_organisations(record):
     organisations = []
     for element in record['sponsors'] or []:
         organisations.append({
-            'name': element.get('lead_spondor', {}).get('agency', ''),
+            'name': element.get('lead_sponsor', {}).get('agency', ''),
             # ---
             'trial_role': 'primary_sponsor',
         })
